@@ -23,7 +23,8 @@ class ExpenseView(ModelView):
     create_modal = True
     column_editable_list = ('date', 'description', 'expense_value')
     column_filters = ['date', 'description']
-
+    can_export = True
+    export_types = ['csv']
 
 admin.add_view(ExpenseView(Expense, db.session, name="Gastos"))
 
