@@ -26,6 +26,11 @@ class ExpenseView(ModelView):
     column_filters = ['date', 'description']
     can_export = True
     export_types = ['csv']
+    column_descriptions = {
+        "description": "descrição do gasto",
+        "date": "data do gasto",
+        "expense_value": "valor gasto"
+    }
 
 
 class IncomeView(ModelView):
@@ -37,6 +42,11 @@ class IncomeView(ModelView):
     export_types = ['csv']
     form_extra_fields = {
         'income_type': SelectField('Tipo', choices=['Salário', 'Outros'])
+    }
+    column_descriptions = {
+        "income_type": "tipo do ganho",
+        "date": "data do ganho",
+        "income_value": "valor do ganho"
     }
 
 
