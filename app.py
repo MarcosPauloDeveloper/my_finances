@@ -2,6 +2,7 @@ from flask import Flask
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_sqlalchemy import SQLAlchemy
+from wtforms.fields import SelectField
 
 
 app = Flask(__name__)
@@ -15,7 +16,7 @@ admin = Admin(app, name="Minhas Finanças", template_mode="bootstrap4")
 db = SQLAlchemy(app)
 
 
-from models import Expense
+from models import Expense, Income
 
 
 class ExpenseView(ModelView):
@@ -26,7 +27,22 @@ class ExpenseView(ModelView):
     can_export = True
     export_types = ['csv']
 
+
+class IncomeView(ModelView):
+    edit_modal = True
+    create_modal = True
+    column_editable_list = ('date', 'income_type', 'income_value')
+    column_filters = ['date', 'income_type']
+    can_export = True
+    export_types = ['csv']
+    form_extra_fields = {
+        'income_type': SelectField('Tipo', choices=['Salário', 'Outros'])
+    }
+
+
 admin.add_view(ExpenseView(Expense, db.session, name="Gastos"))
+admin.add_view(IncomeView(Income, db.session, name="Ganhos"))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
